@@ -1,1 +1,1 @@
-# Netguru_task
+# Motivational_App
