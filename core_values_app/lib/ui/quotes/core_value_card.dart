@@ -12,29 +12,32 @@ class CoreValueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 15,
       shadowColor: primary_green,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          Positioned(
+            right: 20,
+            left: 20,
             child: Text(
               coreValue,
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: 15),
-          OutlineButton(
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Icon(Icons.favorite_border_outlined),
+          Positioned(
+            bottom: 20,
+            child: OutlineButton(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Icon(Icons.favorite_border_outlined),
+              ),
+              shape: CircleBorder(),
+              color: primary_green,
+              onPressed: () {},
             ),
-            shape: CircleBorder(),
-            color: primary_green,
-            onPressed: () {},
           )
         ],
       ),

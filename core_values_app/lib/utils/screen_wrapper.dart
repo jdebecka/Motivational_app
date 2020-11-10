@@ -18,56 +18,75 @@ class ScreenWrapper extends StatefulWidget {
 class _ScreenWrapperState extends State<ScreenWrapper> {
   TextEditingController _textFieldController = TextEditingController();
 
+  Route _createRoute(nextPage) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => nextPage,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   _addNewCoreValue(String quote) async {
     final preferences = await SharedPreferences.getInstance();
-    var favouritesList = preferences.getStringList(favourite_key) ?? List<String>();
+    var favouritesList =
+        preferences.getStringList(favourite_key) ?? List<String>();
 
-    if(quote.isNotEmpty){
+    if (quote.isNotEmpty) {
       favouritesList.add(quote);
       preferences.setStringList(favourite_key, favouritesList);
     }
-
   }
 
   _displayDialog(BuildContext context) async {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Add Your Core Value'),
-            content: Card(
-              color: Colors.transparent,
-              elevation: 0.0,
-              child: Column(
-                children: [
-                  TextField(
-                    minLines: 1,
-                    maxLines: 5,
-                    controller: _textFieldController,
-                    decoration:
-                        InputDecoration(hintText: "Enter your core value"),
-                  ),
-                ],
-              ),
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text('Add Your Core Value'),
+          content: Card(
+            color: Colors.transparent,
+            elevation: 0.0,
+            child: Column(
+              children: [
+                TextField(
+                  minLines: 1,
+                  maxLines: 5,
+                  controller: _textFieldController,
+                  decoration:
+                      InputDecoration(hintText: "Enter your core value"),
+                ),
+              ],
             ),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                isDestructiveAction: true,
-                child: Text("CANCEL"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text("ADD"),
-                  onPressed: () {
-                    print(_textFieldController.value.text);
-                    _addNewCoreValue(_textFieldController.value.text);
-                    _textFieldController.clear();
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              child: Text("CANCEL"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            CupertinoDialogAction(
+                isDefaultAction: true,
+                child: Text("ADD"),
+                onPressed: () {
+                  print(_textFieldController.value.text);
+                  _addNewCoreValue(_textFieldController.value.text);
+                  _textFieldController.clear();
+                  Navigator.of(context).pop();
+                }),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -77,8 +96,7 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
           child: InkWell(
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => destination)),
+            onTap: () => Navigator.of(context).push(_createRoute(destination)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -135,7 +153,9 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
               QuotesListView(),
             ),
             _getBottomIcon(
-              widget.childIndex == 1 ? Icons.favorite : Icons.favorite_border_outlined,
+              widget.childIndex == 1
+                  ? Icons.favorite
+                  : Icons.favorite_border_outlined,
               28,
               'Favourites',
               FavouritesScreen(),
