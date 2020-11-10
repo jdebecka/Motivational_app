@@ -1,16 +1,12 @@
+import 'package:core_values_app/cubits/user_core_values/user_values_cubit.dart';
 import 'package:core_values_app/ui/favourites/favourites_screen.dart';
 import 'package:core_values_app/ui/quotes/quotes_list_view.dart';
-import 'package:core_values_app/utils/constants.dart';
+import 'package:core_values_app/ui/quotes/quotes_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScreenWrapper extends StatefulWidget {
-  final child;
-  final childIndex;
-
-  ScreenWrapper({Key key, this.child, this.childIndex}) : super(key: key);
-
   @override
   _ScreenWrapperState createState() => _ScreenWrapperState();
 }
@@ -34,16 +30,6 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         );
       },
     );
-  }
-
-  _addNewCoreValue(String quote) async {
-    final preferences = await SharedPreferences.getInstance();
-    var userValues =
-        preferences.getStringList(user_values) ?? List<String>();
-    if (quote.isNotEmpty) {
-      userValues.add(quote);
-      preferences.setStringList(user_values, userValues);
-    }
   }
 
   _displayDialog(BuildContext context) async {
@@ -74,27 +60,27 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
               onPressed: () => Navigator.of(context).pop(),
             ),
             CupertinoDialogAction(
-                isDefaultAction: true,
-                child: Text("ADD"),
-                onPressed: () {
-                  setState(() {
-                    _addNewCoreValue(_textFieldController.value.text);
-                    _textFieldController.clear();
-                  });
-                  Navigator.of(context).pop();
-                }),
+              isDefaultAction: true,
+              child: Text("ADD"),
+              onPressed: () {
+                var quote = _textFieldController.value.text;
+                _textFieldController.clear();
+                context.bloc<UserValuesCubit>().addToUserCoreValues(quote);
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
     );
   }
 
-  Widget _getBottomIcon(IconData iconData, double iconSize,
-      String description, destination) =>
+  Widget _getBottomIcon(IconData iconData, double iconSize, String description,
+          destination) =>
       Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
         child: InkWell(
-          onTap: () => Navigator.of(context).pushAndRemoveUntil(_createRoute(destination), (Route<dynamic> route) => route.isFirst),
+          onTap: () => Navigator.of(context).push(_createRoute(destination)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -145,17 +131,13 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getBottomIcon(
-              widget.childIndex == 0
-                  ? Icons.format_quote_sharp
-                  : Icons.format_quote_outlined,
+              Icons.format_quote_outlined,
               35,
               'Values',
               QuotesListView(),
             ),
             _getBottomIcon(
-              widget.childIndex == 1
-                  ? Icons.favorite
-                  : Icons.favorite_border_outlined,
+              Icons.favorite_border_outlined,
               28,
               'Favourites',
               FavouritesScreen(),
@@ -163,7 +145,7 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
           ],
         ),
       ),
-      body: widget.child,
+      body: QuotesScreen(),
     );
   }
 }
