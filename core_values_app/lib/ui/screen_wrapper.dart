@@ -64,7 +64,6 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
               child: Text("ADD"),
               onPressed: () {
                 var quote = _textFieldController.value.text;
-                print(quote);
                 BlocProvider.of<UserValuesCubit>(context).addToUserCoreValues(quote);
                 _textFieldController.clear();
                 Navigator.of(context).pop();

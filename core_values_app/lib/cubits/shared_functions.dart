@@ -10,7 +10,7 @@ Future<List<String>> getUserSavedValues({String key}) async =>
         .then((value) => value.getStringList(key) ?? []);
 
 Future<List<String>> getValuesToDisplay(key) =>
-    getUserSavedValues(key: key).then((value) => List.from(core_values)..addAll(value));
+    getUserSavedValues(key: key).then((value) => (List.from(core_values)..addAll(value)));
 
 Future<List<String>> manageStoredItems({String quote, ManageItem option, String key}) async {
   var userValues = await getUserSavedValues(key: key);

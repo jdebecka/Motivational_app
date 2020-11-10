@@ -20,22 +20,17 @@ class FavouritesButton extends StatelessWidget {
           }
           else
             isFavourite = (state as FavouritesUpdated).userFavourites.contains(quote);
-            return Ink(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(width: 1, color: primary_green)
-              ),
-              child: IconButton(
-                onPressed: () {
-                  isFavourite
-                      ? BlocProvider.of<FavouriteCubit>(context)
-                      .deleteFromFavourites(quote)
-                      : BlocProvider.of<FavouriteCubit>(context)
-                      .addToFavourite(quote);
-                },
-                icon: Icon(isFavourite ? Icons.favorite : Icons
-                    .favorite_border_outlined),
-              ),
+            return IconButton(
+              onPressed: () {
+                isFavourite
+                    ? BlocProvider.of<FavouriteCubit>(context)
+                    .deleteFromFavourites(quote)
+                    : BlocProvider.of<FavouriteCubit>(context)
+                    .addToFavourite(quote);
+              },
+              color: primary_green,
+              icon: Icon(isFavourite ? Icons.favorite : Icons
+                  .favorite_border_outlined),
             );
           });
   }
