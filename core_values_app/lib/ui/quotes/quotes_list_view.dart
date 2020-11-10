@@ -1,3 +1,4 @@
+import 'package:core_values_app/cubits/favourite/favourite_cubit.dart';
 import 'package:core_values_app/cubits/user_core_values/user_values_cubit.dart';
 import 'package:core_values_app/ui/favourites/favourite_button.dart';
 import 'package:core_values_app/utils/constants.dart';
@@ -28,20 +29,33 @@ class _QuotesListViewState extends State<QuotesListView> {
         } else {
           _listToDisplay = (state as UserValuesUpdated).valuesToBeDisplayed;
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: Text('Core Values'),
+            ),
             body: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return core_values.contains(_listToDisplay[index])
-                    ? getChildListTile(index)
+                    ? _getChildListTile(index)
                     : Dismissible(
-                        background: Container(color: Colors.red),
-                        onDismissed: (direction) {
-                          BlocProvider.of<UserValuesCubit>(context)
-                              .deleteFromCoreValues(_listToDisplay[index]);
-                        },
-                        key: ValueKey<int>(index),
-                        child: getChildListTile(index),
-                      );
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    color: Colors.red,
+                    child: Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onDismissed: (direction) {
+                    BlocProvider.of<UserValuesCubit>(context)
+                        .deleteFromCoreValues(_listToDisplay[index]);
+                    BlocProvider.of<FavouriteCubit>(context)
+                        .deleteFromFavourites(_listToDisplay[index]);
+                  },
+                  key: ValueKey<int>(index),
+                  child: _getChildListTile(index),
+                );
               },
               itemCount: _listToDisplay.length,
             ),
@@ -51,13 +65,12 @@ class _QuotesListViewState extends State<QuotesListView> {
     );
   }
 
-  getChildListTile(index) => Container(
+  _getChildListTile(index) =>
+      Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         decoration: BoxDecoration(
-            boxShadow: [BoxShadow(color: primary_green, blurRadius: 2)],
-            color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.grey[400] : Colors.white,
-            border: Border.all(color: primary_green)),
+            border: Border(bottom: BorderSide(color: primary_green))),
         child: Row(
           children: [
             Expanded(

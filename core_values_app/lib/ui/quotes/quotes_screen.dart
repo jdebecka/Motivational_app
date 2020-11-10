@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:core_values_app/cubits/user_core_values/user_values_cubit.dart';
 import 'package:core_values_app/ui/quotes/core_value_card.dart';
-import 'package:core_values_app/ui/screen_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -17,8 +17,8 @@ class FavouritesScreen extends StatelessWidget {
         if (state is FavouritesEmpty) {
           return Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.all(20),
-            child: Text("It seems like you didn't like any of the quotes yet"),
+            margin: const EdgeInsets.all(40),
+            child: Text("It seems like you didn't like any of the quotes yet", style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center,),
           );
         } else {
           var _listToDisplay = (state as FavouritesUpdated).userFavourites;

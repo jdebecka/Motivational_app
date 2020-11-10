@@ -31,6 +31,6 @@ class UserValuesCubit extends Cubit<UserValuesState> {
   }
 
   getValues() {
-    getValuesToDisplay(key).then((value) => emit(UserValuesUpdated(value)));
+    getUserSavedValues(key: key).then((value) => _addAndEmit(value));
   }
 }

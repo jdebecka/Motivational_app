@@ -112,10 +112,11 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         onPressed: () => _displayDialog(context),
       ),
       appBar: AppBar(
-        leading: Container(
-          margin: const EdgeInsets.only(left: 20),
+        title: Container(
+          margin: const EdgeInsets.all(40),
+          padding: const EdgeInsets.all(40),
           child: Image.asset(
-            'assets/images/logo.png',
+            'assets/images/Netguru-Logo.png',
           ),
         ),
       ),
