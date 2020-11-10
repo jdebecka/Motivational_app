@@ -1,3 +1,4 @@
+import 'package:core_values_app/ui/favourites/favourite_button.dart';
 import 'package:core_values_app/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,7 @@ class CoreValueCard extends StatelessWidget {
           ),
           Positioned(
             bottom: 20,
-            child: OutlineButton(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Icon(Icons.favorite_border_outlined),
-              ),
-              shape: CircleBorder(),
-              color: primary_green,
-              onPressed: () {},
-            ),
+            child: FavouritesButton(),
           )
         ],
       ),

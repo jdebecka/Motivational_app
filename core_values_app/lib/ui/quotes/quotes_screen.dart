@@ -60,22 +60,23 @@ class _QuotesScreenState extends State<QuotesScreen>
 
     return Scaffold(
       body: BlocBuilder<UserValuesCubit, UserValuesState>(
-          builder: (context, state) {
-        if (state is UserValuesInitial) {
-          _coreValuesToDisplay =
-              BlocProvider.of<UserValuesCubit>(context).getValues();
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          _coreValuesToDisplay = state.valuesToBeDisplayed;
-          startAnimating();
+        builder: (context, state) {
+          if (state is UserValuesInitial) {
+            _coreValuesToDisplay =
+                BlocProvider.of<UserValuesCubit>(context).getValues();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            _coreValuesToDisplay =
+                (state as UserValuesUpdated).valuesToBeDisplayed;
+            startAnimating();
 
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            alignment: Alignment.center,
-            height: size.height * screenAdjustmentMultiplier,
-            child: AnimatedSwitcher(
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              alignment: Alignment.center,
+              height: size.height * screenAdjustmentMultiplier,
+              child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return SlideTransition(
@@ -89,10 +90,12 @@ class _QuotesScreenState extends State<QuotesScreen>
                 child: CoreValueCard(
                   key: ValueKey<int>(_currentIndex),
                   coreValue: _currentText,
-                )),
-          );
-        }
-      }),
+                ),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
