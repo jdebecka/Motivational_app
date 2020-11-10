@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 
 class CoreValueCard extends StatelessWidget {
   final String coreValue;
-  final bool isFavourite;
 
-  const CoreValueCard({Key key, this.coreValue, this.isFavourite = false})
+  const CoreValueCard({Key key, this.coreValue})
       : super(key: key);
 
   @override
@@ -30,7 +29,7 @@ class CoreValueCard extends StatelessWidget {
           ),
           Positioned(
             bottom: 20,
-            child: FavouritesButton(),
+            child: FavouritesButton(key: key,quote: coreValue),
           )
         ],
       ),

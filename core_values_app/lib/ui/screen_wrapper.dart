@@ -64,8 +64,9 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
               child: Text("ADD"),
               onPressed: () {
                 var quote = _textFieldController.value.text;
+                print(quote);
+                BlocProvider.of<UserValuesCubit>(context).addToUserCoreValues(quote);
                 _textFieldController.clear();
-                context.bloc<UserValuesCubit>().addToUserCoreValues(quote);
                 Navigator.of(context).pop();
               },
             ),
@@ -112,13 +113,10 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         onPressed: () => _displayDialog(context),
       ),
       appBar: AppBar(
-        leading: InkWell(
-          onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
-          child: Container(
-            margin: const EdgeInsets.only(left: 20),
-            child: Image.asset(
-              'assets/images/logo.png',
-            ),
+        leading: Container(
+          margin: const EdgeInsets.only(left: 20),
+          child: Image.asset(
+            'assets/images/logo.png',
           ),
         ),
       ),

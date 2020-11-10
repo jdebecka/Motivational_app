@@ -34,7 +34,7 @@ class _QuotesScreenState extends State<QuotesScreen>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: Duration(seconds: 5));
     _animationController.repeat(reverse: true);
     _animationController.addStatusListener(_changeText);
   }
@@ -56,7 +56,6 @@ class _QuotesScreenState extends State<QuotesScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final screenAdjustmentMultiplier = size.height < 700 ? 0.6 : 0.45;
-    final offsetAdjustment = size.height < 700 ? 0.15 : 0.4;
 
     return Scaffold(
       body: BlocBuilder<UserValuesCubit, UserValuesState>(
@@ -71,25 +70,22 @@ class _QuotesScreenState extends State<QuotesScreen>
             _coreValuesToDisplay =
                 (state as UserValuesUpdated).valuesToBeDisplayed;
             startAnimating();
-
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              alignment: Alignment.center,
-              height: size.height * screenAdjustmentMultiplier,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return SlideTransition(
-                    child: child,
-                    position: Tween<Offset>(
-                            begin: Offset(0, -1),
-                            end: Offset(0.0, offsetAdjustment))
-                        .animate(animation),
-                  );
-                },
-                child: CoreValueCard(
-                  key: ValueKey<int>(_currentIndex),
-                  coreValue: _currentText,
+            return Center(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                height: size.height * screenAdjustmentMultiplier,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      child: child,
+                    );
+                  },
+                  child: CoreValueCard(
+                    key: ValueKey<int>(_currentIndex),
+                    coreValue: _currentText,
+                  ),
                 ),
               ),
             );
