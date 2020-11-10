@@ -53,7 +53,7 @@ class _QuotesListViewState extends State<QuotesListView> {
                     BlocProvider.of<FavouriteCubit>(context)
                         .deleteFromFavourites(_listToDisplay[index]);
                   },
-                  key: ValueKey<int>(index),
+                  key: ValueKey<String>(_listToDisplay[index]),
                   child: _getChildListTile(index),
                 );
               },

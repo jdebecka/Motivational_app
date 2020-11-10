@@ -14,27 +14,32 @@ class CoreValueCard extends StatelessWidget {
       elevation: 15,
       shadowColor: primary_green,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      child: Stack(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         alignment: Alignment.center,
-        children: [
-          Positioned(
-            right: 20,
-            left: 20,
-            child: Text(
-              coreValue,
-              style: Theme.of(context).textTheme.bodyText1,
-              textAlign: TextAlign.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: Text(
+                  coreValue,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 20,
-            child: Ink(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 1, color: primary_green)),
-                child: FavouritesButton(key: key, quote: coreValue)),
-          )
-        ],
+            Expanded(
+              flex: 1,
+              child: Ink(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(width: 1, color: primary_green)),
+                  child: FavouritesButton(key: key, quote: coreValue)),
+            )
+          ],
+        ),
       ),
     );
   }

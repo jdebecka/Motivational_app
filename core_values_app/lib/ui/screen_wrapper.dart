@@ -112,13 +112,11 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         onPressed: () => _displayDialog(context),
       ),
       appBar: AppBar(
-        title: Container(
-          margin: const EdgeInsets.all(40),
-          padding: const EdgeInsets.all(40),
-          child: Image.asset(
-            'assets/images/Netguru-Logo.png',
-          ),
+        leading: Container(
+          margin: const EdgeInsets.only(left: 20),
+          child: Image.asset('assets/images/logo.png'),
         ),
+        title: Text('NG Values'),
       ),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 8.0,
@@ -129,13 +127,13 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getBottomIcon(
-              Icons.format_quote_outlined,
+              Icons.format_quote,
               35,
               'Values',
               QuotesListView(),
             ),
             _getBottomIcon(
-              Icons.favorite_border_outlined,
+              Icons.favorite,
               28,
               'Favourites',
               FavouritesScreen(),
