@@ -38,12 +38,11 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
 
   _addNewCoreValue(String quote) async {
     final preferences = await SharedPreferences.getInstance();
-    var favouritesList =
-        preferences.getStringList(favourite_key) ?? List<String>();
-
+    var userValues =
+        preferences.getStringList(user_values) ?? List<String>();
     if (quote.isNotEmpty) {
-      favouritesList.add(quote);
-      preferences.setStringList(favourite_key, favouritesList);
+      userValues.add(quote);
+      preferences.setStringList(user_values, userValues);
     }
   }
 
@@ -78,9 +77,10 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
                 isDefaultAction: true,
                 child: Text("ADD"),
                 onPressed: () {
-                  print(_textFieldController.value.text);
-                  _addNewCoreValue(_textFieldController.value.text);
-                  _textFieldController.clear();
+                  setState(() {
+                    _addNewCoreValue(_textFieldController.value.text);
+                    _textFieldController.clear();
+                  });
                   Navigator.of(context).pop();
                 }),
           ],
@@ -89,31 +89,31 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
     );
   }
 
+  Widget _getBottomIcon(IconData iconData, double iconSize,
+      String description, destination) =>
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+        child: InkWell(
+          onTap: () => Navigator.of(context).pushAndRemoveUntil(_createRoute(destination), (Route<dynamic> route) => route.isFirst),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                iconData,
+                size: iconSize,
+              ),
+              Text(
+                description,
+                style: Theme.of(context).textTheme.caption,
+              )
+            ],
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
-    Widget _getBottomIcon(IconData iconData, double iconSize,
-            String description, destination) =>
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
-          child: InkWell(
-            onTap: () => Navigator.of(context).push(_createRoute(destination)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(
-                  iconData,
-                  size: iconSize,
-                ),
-                Text(
-                  description,
-                  style: Theme.of(context).textTheme.caption,
-                )
-              ],
-            ),
-          ),
-        );
-
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(

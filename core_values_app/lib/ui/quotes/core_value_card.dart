@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class CoreValueCard extends StatelessWidget {
   final String coreValue;
-  final bool isListView;
+  final bool isFavourite;
 
-  const CoreValueCard({Key key, this.coreValue, this.isListView = false})
+  const CoreValueCard({Key key, this.coreValue, this.isFavourite = false})
       : super(key: key);
 
   @override
