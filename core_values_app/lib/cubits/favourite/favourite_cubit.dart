@@ -17,11 +17,11 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void deleteFromFavourites(String quote) async {
     var newUserValues = await manageStoredItems(quote: quote, key: key, option: ManageItem.delete);
-    emit(FavouritesUpdated(newUserValues));
+    newUserValues.isNotEmpty ? emit(FavouritesUpdated(newUserValues)) : emit(FavouritesEmpty());
   }
 
   Future getFavourites() async {
     List<String> userFavourites = await getUserSavedValues(key: key);
-    emit(FavouritesUpdated(userFavourites));
+    userFavourites.isNotEmpty ? emit(FavouritesUpdated(userFavourites)) : emit(FavouritesEmpty());
   }
 }

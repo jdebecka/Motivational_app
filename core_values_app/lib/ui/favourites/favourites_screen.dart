@@ -15,7 +15,6 @@ class FavouritesScreen extends StatelessWidget {
       body: BlocBuilder<FavouriteCubit, FavouriteState>(
           builder: (context, state) {
         if (state is FavouritesEmpty) {
-          BlocProvider.of<FavouriteCubit>(context).getFavourites();
           return Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.all(20),
@@ -28,14 +27,11 @@ class FavouritesScreen extends StatelessWidget {
             child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) => Divider(),
               itemBuilder: (BuildContext context, int index) {
-                return Dismissible(
-                  key: ValueKey<int>(index),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    title: Text(_listToDisplay[index]),
-                    trailing: FavouritesButton(quote: _listToDisplay[index]),
-                  ),
+                return ListTile(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  title: Text(_listToDisplay[index]),
+                  trailing: FavouritesButton(quote: _listToDisplay[index]),
                 );
               },
               itemCount: _listToDisplay.length,

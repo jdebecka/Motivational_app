@@ -14,13 +14,13 @@ class UserValuesCubit extends Cubit<UserValuesState> {
 
   void addToUserCoreValues(String quote) async{
     var newUserValues = await manageStoredItems(quote: quote, key: key, option: ManageItem.add);
-    emit(UserValuesUpdated(newUserValues));
+    emit(UserValuesUpdated(newUserValues..addAll(core_values)));
   }
 
   void deleteFromCoreValues(String quote) async {
     if(core_values.contains(quote)){
       var newUserValues = await manageStoredItems(quote: quote, key: key, option: ManageItem.delete);
-      emit(UserValuesUpdated(newUserValues));
+      emit(UserValuesUpdated(newUserValues..addAll(core_values)));
     }
   }
   getValues() {
