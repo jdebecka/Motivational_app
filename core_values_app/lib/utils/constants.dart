@@ -1,6 +1,11 @@
 import 'dart:ui';
 
+//Colors
 const primary_green = Color.fromRGBO(97, 209, 112, 1);
+
+//Objects
+const String favourite_key = 'favourites';
+const String user_values = 'userValues';
 
 const List<String> core_values = [
   "Exceed clients' and colleagues' expectations",
