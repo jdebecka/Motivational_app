@@ -21,12 +21,6 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _textFieldController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

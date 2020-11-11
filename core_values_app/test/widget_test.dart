@@ -27,9 +27,9 @@ void main() {
     final button = find.byType(FloatingActionButton);
     await tester.tap(button);
     await tester.pump();
-
     expect(find.byType(CupertinoAlertDialog), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
     expect(find.text('Add Your Core Value'), findsOneWidget);
+
   });
 }
