@@ -12,91 +12,19 @@ class ScreenWrapper extends StatefulWidget {
 }
 
 class _ScreenWrapperState extends State<ScreenWrapper> {
-  TextEditingController _textFieldController = TextEditingController();
+  TextEditingController _textFieldController;
 
-  Route _createRoute(nextPage) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => nextPage,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, 1.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    _textFieldController = TextEditingController();
   }
 
-  _displayDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text('Add Your Core Value'),
-          content: Card(
-            color: Colors.transparent,
-            elevation: 0.0,
-            child: Column(
-              children: [
-                TextField(
-                  minLines: 1,
-                  maxLines: 5,
-                  controller: _textFieldController,
-                  decoration:
-                      InputDecoration(hintText: "Enter your core value"),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              child: Text("CANCEL"),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: Text("ADD"),
-              onPressed: () {
-                var quote = _textFieldController.value.text;
-                BlocProvider.of<UserValuesCubit>(context).addToUserCoreValues(quote);
-                _textFieldController.clear();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void dispose() {
+    super.dispose();
+    _textFieldController.dispose();
   }
-
-  Widget _getBottomIcon(IconData iconData, double iconSize, String description,
-          destination) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
-        child: InkWell(
-          onTap: () => Navigator.of(context).push(_createRoute(destination)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(
-                iconData,
-                size: iconSize,
-              ),
-              Text(
-                description,
-                style: Theme.of(context).textTheme.caption,
-              )
-            ],
-          ),
-        ),
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -144,4 +72,92 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
       body: QuotesScreen(),
     );
   }
+
+  Route _createRoute(nextPage) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => nextPage,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text('Add Your Core Value'),
+          content: Card(
+            color: Colors.transparent,
+            elevation: 0.0,
+            child: Column(
+              children: [
+                TextField(
+                  minLines: 1,
+                  maxLines: 5,
+                  controller: _textFieldController,
+                  decoration:
+                  InputDecoration(hintText: "Enter your core value"),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              child: Text("CANCEL"),
+              onPressed: _popWidget,
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text("ADD"),
+              onPressed: _addToUserValues,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _getBottomIcon(IconData iconData, double iconSize, String description,
+      destination) =>
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+        child: InkWell(
+          onTap: () => Navigator.of(context).push(_createRoute(destination)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                iconData,
+                size: iconSize,
+              ),
+              Text(
+                description,
+                style: Theme.of(context).textTheme.caption,
+              )
+            ],
+          ),
+        ),
+      );
+
+  _addToUserValues() {
+    var quote = _textFieldController.value.text;
+    BlocProvider.of<UserValuesCubit>(context).addToUserCoreValues(quote);
+    _textFieldController.clear();
+    _popWidget();
+  }
+
+  _popWidget() => Navigator.of(context).pop();
 }

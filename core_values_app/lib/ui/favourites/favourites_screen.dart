@@ -1,9 +1,8 @@
 import 'package:core_values_app/cubits/favourite/favourite_cubit.dart';
+import 'package:core_values_app/ui/favourites/favourite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'favourite_button.dart';
 
 class FavouritesScreen extends StatelessWidget {
   @override
@@ -18,7 +17,11 @@ class FavouritesScreen extends StatelessWidget {
           return Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.all(40),
-            child: Text("It seems like you didn't like any of the quotes yet", style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center,),
+            child: Text(
+              "It seems like you didn't like any of the quotes yet",
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.center,
+            ),
           );
         } else {
           var _listToDisplay = (state as FavouritesUpdated).userFavourites;

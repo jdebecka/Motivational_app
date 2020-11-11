@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:core_values_app/cubits/user_core_values/user_values_cubit.dart';
 import 'package:core_values_app/ui/quotes/core_value_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,16 +20,6 @@ class _QuotesScreenState extends State<QuotesScreen>
   int _currentIndex;
   SharedPreferences preferences;
 
-  _changeText(AnimationStatus status) {
-    if (status == AnimationStatus.forward)
-      setState(
-        () {
-          _currentIndex = _getRandomIndex();
-          _currentText = _coreValuesToDisplay[_currentIndex];
-        },
-      );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -36,13 +27,6 @@ class _QuotesScreenState extends State<QuotesScreen>
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     _animationController.repeat(reverse: true);
     _animationController.addStatusListener(_changeText);
-  }
-
-  int _getRandomIndex() => Random().nextInt(_coreValuesToDisplay.length);
-
-  void startAnimating() {
-    _currentIndex = _getRandomIndex();
-    _currentText = _coreValuesToDisplay[_currentIndex];
   }
 
   @override
@@ -75,7 +59,8 @@ class _QuotesScreenState extends State<QuotesScreen>
                 height: size.height * screenAdjustmentMultiplier,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 400),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
                     return ScaleTransition(
                       scale: animation,
                       child: child,
@@ -92,5 +77,22 @@ class _QuotesScreenState extends State<QuotesScreen>
         },
       ),
     );
+  }
+
+  int _getRandomIndex() => Random().nextInt(_coreValuesToDisplay.length);
+
+  void startAnimating() {
+    _currentIndex = _getRandomIndex();
+    _currentText = _coreValuesToDisplay[_currentIndex];
+  }
+
+  _changeText(AnimationStatus status) {
+    if (status == AnimationStatus.forward)
+      setState(
+        () {
+          _currentIndex = _getRandomIndex();
+          _currentText = _coreValuesToDisplay[_currentIndex];
+        },
+      );
   }
 }

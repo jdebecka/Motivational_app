@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:core_values_app/cubits/option_enum.dart';
 import 'package:core_values_app/cubits/shared_functions.dart';
+import 'package:core_values_app/model/option_enum.dart';
 import 'package:core_values_app/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 
